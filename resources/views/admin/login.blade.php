@@ -20,31 +20,22 @@
 </head>
 
 <body>
-
-    <!--Header-->
-    <header class="navbar navbar-default navbar-nav navbar-fixed-top">
-        <div class="navbar-inner">
-            <div class="container">
-
-         <a class="pull-left" href="index.html"><img src="images/logo.jpg" /></a>
-                <div class="nav-collapse collapse pull-right">
-                    <ul class="nav">
-                        <li class="active"><a href="/">Home</a></li>
-                        <li><a href="/donate">Donate</a></li>
-                        <li><a href="/volunteer">Volunteer</a></li>
-                        <li><a href="/contact">Contact</a></li>
-                    </ul>        
-                </div><!--/.nav-collapse -->
-            </div>
-        </div>
-    </header>
     <!-- /header -->
 <div id="forms">
+@if (count($errors) > 0)
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 <h1>Login form Admin</h1>
 <form method="POST" action="admin/validate" accept-charset="UTF-8"><input name="_token" type="hidden">
   {!! csrf_field() !!}
   <div class="form-group">
-    <label for="email">Email:</label>
+    <label for="email">Email:   </label>
     <input class="form-control" required="required" name="email" type="email" id="email">
   </div>
   <div class="form-group">
@@ -61,80 +52,5 @@
   @endif
 
 </form>
-</div>
-
-
-<!--Footer-->
-<footer id="footer">
-    <div class="container">
-        <div class="row-fluid">
-            <div class="span5 cp">
-                &copy; <a href="index.html">Developed By:UnhollyAlliance</a>
-            </div>
-            <!--/Copyright-->
-
-            <div class="span6">
-                <ul class="social pull-right">
-                    <li><a href="#"><i class="icon-facebook"></i></a></li>
-                    <li><a href="#"><i class="icon-twitter"></i></a></li>
-                    <li><a href="#"><i class="icon-linkedin"></i></a></li>
-                    <li><a href="#"><i class="icon-google-plus"></i></a></li>                       
-                    <li><a href="#"><i class="icon-youtube"></i></a></li>
-                    <li><a href="#"><i class="icon-github-alt"></i></a></li>
-                    <li><a href="#"><i class="icon-instagram"></i></a></li>                   
-                </ul>
-            </div>
-
-            <div class="span1">
-                <a id="gototop" class="gototop pull-right" href="#"><i class="icon-angle-up"></i></a>
-            </div>
-            <!--/Goto Top-->
-        </div>
-    </div>
-</footer>
-<!--/Footer-->
-
-
-<script src="js/vendor/jquery-1.9.1.min.js"></script>
-<script src="js/vendor/bootstrap.min.js"></script>
-<script src="js/main.js"></script>
-<!-- Required javascript files for Slider -->
-<script src="js/jquery.ba-cond.min.js"></script>
-<script src="js/jquery.slitslider.js"></script>
-<!-- /Required javascript files for Slider -->
-
-<!-- SL Slider -->
-<script type="text/javascript"> 
-$(function() {
-    var Page = (function() {
-
-        var $navArrows = $( '#nav-arrows' ),
-        slitslider = $( '#slider' ).slitslider( {
-            autoplay : true
-        } ),
-
-        init = function() {
-            initEvents();
-        },
-        initEvents = function() {
-            $navArrows.children( ':last' ).on( 'click', function() {
-                slitslider.next();
-                return false;
-            });
-
-            $navArrows.children( ':first' ).on( 'click', function() {
-                slitslider.previous();
-                return false;
-            });
-        };
-
-        return { init : init };
-
-    })();
-
-    Page.init();
-});
-</script>
-<!-- /SL Slider -->
 </body>
 </html>

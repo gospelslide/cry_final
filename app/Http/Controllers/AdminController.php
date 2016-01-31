@@ -8,7 +8,8 @@ use Auth;
 use Input;
 use DB;
 use App\Admin;
-use Validator;
+use Hash;
+use App\Http\Requests\AdminValidationRequest;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Sarav\Multiauth\Foundation\AuthenticatesAndRegistersUsers;
@@ -20,29 +21,30 @@ class AdminController extends Controller
     	return view('admin.login')->with('message', '');
     }
 
-    public function login(Request $request)
+    public function login(AdminValidationRequest $request)
     {		
-	  	$validator = Validator::make(Input::all(),
-	  		['email' => 'required'],
-	  		['password' => 'required|min:6']
-	  	);
-	  	if($validator->passes())
-	  	{
-	  		dd("yeah");
-	    	$email = $request->input('email');
-	    	$password = $request->input('password');
-	    	if(Auth::attempt('admin',['email' => $email,'password' => $password]))
-	    		return "yeah";
-	    	else
-	    		return redirect()->back();
-	    }
-	    else 
-	    	return $validator->messages();
+        $email = $request->input('email');
+        $password = $request->input('password');
+        $admin = DB::table('admin')->where('email',$email)->first();
+        if($admin)
+        {
+            if(!strcmp($admin->password,$password))
+            {
+                Auth::loginUsingId('admin',$admin->id);
+                return redirect('/admin/home');
+            }  
+            return "wrong password"; 
+        }
+        return "email not found";
     }
 
     public function index()
     {
-
+        $donations = DB::table('donation')->where('status','0')->get();
+        foreach($donations as $donation)
+        {
+            echo $donation->item . "\n";
+        }
     }
 
     public function volunteerRequest()
@@ -65,4 +67,5 @@ class AdminController extends Controller
     	Auth::logout('admin');
     	return redirect('/admin');
     }
+
 }
