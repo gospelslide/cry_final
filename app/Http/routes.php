@@ -39,5 +39,10 @@ Route::get('/admin/donations/assign', 'AdminController@assignVolunteer');
 /* Admin Routes */
 
 /* Volunteer Routes */
-
+Route::get('/volunteer', 'VolunteerController@display');
+Route::post('/volunteer/validate', 'VolunteerController@login');
+Route::get('/volunteer/logout', 'VolunteerController@logout');
+Route::get('/volunteer/home', 'VolunteerController@index');
+Route::get('/volunteer/task_assigned', 'VolunteerController@taskAssigned');
+Route::get('/volunteer/task_pending', 'VolunteerController@taskPending');
 /* Volunteer Route */

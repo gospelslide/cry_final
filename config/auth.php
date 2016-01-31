@@ -6,7 +6,7 @@ return [
         'volunteer' => [
             'driver' => 'eloquent',
             'model'  => App\Volunteer::class,
-            'table'  => 'users'
+            'table'  => 'volunteer'
         ],
         'admin' => [
             'driver' => 'eloquent',
