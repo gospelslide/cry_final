@@ -45,11 +45,7 @@
   <div class='form-group'>
     <input class="btn btn-primary form-control" type="submit" value="Submit">
   </div>
-  @if(!is_null($message))
-	</div class='form-group'>
-		<p>{{ $message }}</p>
-	</div>
-  @endif
+
 
 </form>
 </body>

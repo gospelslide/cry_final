@@ -28,8 +28,8 @@ Route::post('/donate', 'HomeController@submit');
 
 /* Admin Routes */
 
-Route::get('/admin', 'AdminController@display');
-Route::post('/admin/validate', 'AdminController@login');
+Route::get('/admin', 'AdminLoginController@display');
+Route::post('/admin/validate', 'AdminLoginController@login');
 Route::get('/admin/logout', 'AdminController@logout');
 Route::get('/admin/home', 'AdminController@index');
 Route::get('/admin/volunteer_requests', 'AdminController@volunteerRequest');
@@ -40,5 +40,12 @@ Route::get('/admin/donations/assign', 'AdminController@assignVolunteer');
 /* Admin Routes */
 
 /* Volunteer Routes */
+
+Route::get('/volunteer', 'VolunteerLoginController@display');
+Route::post('/volunteer/validate', 'VolunteerLoginController@login');
+Route::get('/volunteer/logout', 'VolunteerController@logout');
+Route::get('/volunteer/home', 'VolunteerController@index');
+Route::get('/volunteer/task_assigned', 'VolunteerController@taskAssigned');
+Route::get('/volunteer/task_pending', 'VolunteerController@taskPending');
 
 /* Volunteer Route */
