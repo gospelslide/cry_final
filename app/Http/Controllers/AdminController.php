@@ -17,26 +17,9 @@ use Sarav\Multiauth\Foundation\AuthenticatesAndRegistersUsers;
 class AdminController extends Controller
 {
 
-    public function display()
-    {	
-    	return view('admin.login')->with('message', '');
-    }
-
-    public function login(AdminValidationRequest $request)
-    {		
-        $email = $request->input('email');
-        $password = $request->input('password');
-        $admin = DB::table('admin')->where('email',$email)->first();
-        $message = 'Invalid username or password!';
-        if($admin)
-        {
-            if(!strcmp($admin->password,$password))
-            {
-                Auth::loginUsingId('admin',$admin->id);
-                return redirect('/admin/home');
-            }   
-        }
-        return redirect()->back()->withErrors($message);
+    public function __construct()
+    {
+        $this->middleware('admin.guest');
     }
 
     public function index()
@@ -98,15 +81,12 @@ class AdminController extends Controller
         $donor_lat=$donor_location->donor_latitude;
         $donor_lon=$donor_location->donor_longitude;
         $proximity=[];
-        $distance=[];
         foreach($result as $value)
         {
             $temp = $value->id;
             $proximity[$temp]=$this->distance($donor_lat,$donor_lon,$value->latitude,$value->longitude);
-            $distance[]=$this->distance($donor_lat,$donor_lon,$value->latitude,$value->longitude);
         }
         asort($proximity);
-        asort($distance);
         $volunteer=[];
         $count=0;
         foreach($proximity as $key=>$value)
@@ -114,10 +94,9 @@ class AdminController extends Controller
             $volunteer[] = DB::table('volunteer')
                     ->select(DB::raw('*'))
                     ->where('id', '=', $key)
-                    ->value('id');
+                    ->get()[0];
         }
-        dd($distance);
-        return view('admin.viewDetails')->with('volunteer',$volunteer)->with('distance',$distance);
+        return view('admin.viewDetails')->with('volunteer',$volunteer)->with('proximity',$proximity);
     }   
 
     public function logout()
