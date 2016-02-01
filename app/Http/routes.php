@@ -22,7 +22,7 @@ Route::get('/contact', function () {
 Route::get('/donate', function () {
 	return view('donate');
 });
-Route::post('/donate', 'HomeController@submit');
+Route::post('/submit', 'HomeController@submit');
  
 /* Main Routes */
 
@@ -45,6 +45,10 @@ Route::get('/volunteer', 'VolunteerLoginController@display');
 Route::post('/volunteer/validate', 'VolunteerLoginController@login');
 Route::get('/volunteer/logout', 'VolunteerController@logout');
 Route::get('/volunteer/home', 'VolunteerController@index');
+Route::get('/volunteer/register', 'VolunteerLoginController@register');
+Route::get('/volunteer/edit', 'VolunteerController@edit');
+Route::post('/volunteer/update', 'VolunteerController@update');
+Route::post('/volunteer/register/create', 'VolunteerLoginController@create');
 Route::get('/volunteer/task_assigned', 'VolunteerController@taskAssigned');
 Route::get('/volunteer/task_pending', 'VolunteerController@taskPending');
 
