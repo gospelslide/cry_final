@@ -33,9 +33,10 @@ Route::post('/admin/validate', 'AdminLoginController@login');
 Route::get('/admin/logout', 'AdminController@logout');
 Route::get('/admin/home', 'AdminController@index');
 Route::get('/admin/volunteer_requests', 'AdminController@volunteerRequest');
-Route::get('/admin/volunteer_requests/approve', 'AdminController@approveVolunteer');
+Route::post('/admin/volunteer_requests/approve', 'AdminController@approveVolunteer');
+Route::post('/admin/volunteer_requests/reject', 'AdminController@rejectVolunteer');
 Route::get('/admin/donations', 'AdminController@donation');
-Route::get('/admin/donations/assign', 'AdminController@assignVolunteer');
+Route::post('/admin/donations/assign', 'AdminController@assignVolunteer');
 
 /* Admin Routes */
 

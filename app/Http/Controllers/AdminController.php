@@ -24,37 +24,35 @@ class AdminController extends Controller
 
     public function index()
     {
-        $donations = DB::table('donation')->where('status','0')->get();
-        foreach($donations as $donation)
-        {
-            echo $donation->item . "\n";
-        }
+        $donations = DB::table('donation')->where('status','1')->get();
+        return view('admin.home')->with('donations',$donations);
     }
 
     public function volunteerRequest()
     {
         $volunteers = DB::table('volunteer')->where('status','0')->get();
-        foreach($volunteers as $volunteer)
-        {
-            echo $volunteer->name . "\n";
-        }
+        return view('admin.volunteer_requests')->with('volunteers',$volunteers);
     }
 
     public function donation()
     {
-        $donations = DB::table('donation')->where('status','1')->get();
-        foreach($donations as $donation)
-        {
-            echo $donation->item . "\n";
-        }
+        $donations = DB::table('donation')->where('status','0')->get();
+        return view('admin.donations')->with('donations',$donations);
     }
 
-    public function approveVolunteer($id)
+    public function approveVolunteer()
     {
-        //volunteer id to be passed
+        $id = Input::get('accept');
         DB::table('volunteer')->where('id',$id)->update(['status' => '1']);
         return redirect('/admin/volunteer_requests');
     }
+
+    public function rejectVolunteer()
+    {
+        $id = Input::get('reject');
+        DB::table('volunteer')->where('id',$id)->update(['status' => '-1']);
+        return redirect('/admin/volunteer_requests');
+    }   
 
     public function distance($lat1, $lon1, $lat2, $lon2) 
     {
@@ -71,22 +69,25 @@ class AdminController extends Controller
 
     public function assignVolunteer()
     {   
-        //donation id to be passed
+        $id = Input::get('assign');
         $result = DB::select('select * from volunteer where status = 1');
         $donor_location=DB::table('donation')
                     ->select(DB::raw('donor_latitude,donor_longitude'))
-                    ->where('id', '=', '3')
+                    ->where('id', '=', $id)
                     ->first();
         
         $donor_lat=$donor_location->donor_latitude;
         $donor_lon=$donor_location->donor_longitude;
         $proximity=[];
+        $distance=[];
         foreach($result as $value)
         {
             $temp = $value->id;
             $proximity[$temp]=$this->distance($donor_lat,$donor_lon,$value->latitude,$value->longitude);
+            $distance[]=$this->distance($donor_lat,$donor_lon,$value->latitude,$value->longitude);
         }
         asort($proximity);
+        asort($distance);
         $volunteer=[];
         $count=0;
         foreach($proximity as $key=>$value)
@@ -96,7 +97,7 @@ class AdminController extends Controller
                     ->where('id', '=', $key)
                     ->get()[0];
         }
-        return view('admin.viewDetails')->with('volunteer',$volunteer)->with('proximity',$proximity);
+        return view('admin.assign')->with('volunteers',$volunteer)->with('distance',$distance);
     }   
 
     public function logout()

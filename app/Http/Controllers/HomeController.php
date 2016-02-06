@@ -41,11 +41,10 @@ class HomeController extends Controller
         }
 
         DB::table('donation')->insert(
-            ['donor_name' => $name, 'donor_email' => $email, 'donor_address' => $address, 'donor_latitude' => $lat, 'donor_longitude' => $lng, 'item' => $item, 'quantity' => $qty]
+            ['donor_name' => $name, 'donor_email' => $email, 'donor_address' => $address, 'donor_latitude' => $lat, 'donor_longitude' => $lng, 'item' => $item, 'quantity' => $qty, 'status' => 0]
         );
-        Mail::send('email.donate', ['name' => $name], function ($message) 
+        Mail::send('email.donate', ['name' => $name], function ($message) use ($email) 
         {
-        	$email = Input::get('email');
             $message->to($email);
         });
 
