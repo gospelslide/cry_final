@@ -23,7 +23,10 @@ class VolunteerController extends Controller
 
     public function index()
     {
-        dd("yo");
+        $volunteerid = Auth::user('volunteer')->id;
+        $condition=['volunteer_id' => $volunteerid,'status' => '3'];
+        $tasks = DB::table('donation')->where($condition)->get();
+        return view('volunteer.home')->with('tasks',$tasks);
     }
 
     public function taskAssigned()
@@ -31,7 +34,8 @@ class VolunteerController extends Controller
         $volunteerid = Auth::user('volunteer')->id;
     	$condition=['volunteer_id' => $volunteerid,'status' => '2'];
     	$tasks = DB::table('donation')->where($condition)->get();
-    	/*
+        return view('volunteer.task')->with('tasks',$tasks);
+        /*
 		Method for onClick Complete button
     	*/
     }
@@ -41,11 +45,17 @@ class VolunteerController extends Controller
         $volunteerid = Auth::user('volunteer')->id;
     	$condition=['volunteer_id' => $volunteerid,'status' => '1'];
     	$tasks = DB::table('donation')->where($condition)->get();
+        return view('volunteer.pending')->with('tasks',$tasks);
     	/*
 		Method for approve/deny donation
     	*/
     }
 
+    public function edit()
+    {
+        return view('volunteer.edit');
+    }
+    
     public function  logout()
     {
     	Auth::logout('volunteer');

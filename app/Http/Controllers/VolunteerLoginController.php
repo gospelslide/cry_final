@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Input;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VolunteerValidationRequest;
+use App\Http\Requests\VolunteerRegistrationRequest;
 use DB;
 use Auth;
 
@@ -32,6 +33,11 @@ class VolunteerLoginController extends Controller
             }   
         }
         return redirect()->back()->withErrors($errors);
+    }
+
+    public function register()
+    {
+        return view('volunteer.register');
     }
 
 }

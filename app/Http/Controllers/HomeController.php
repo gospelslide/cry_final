@@ -24,7 +24,7 @@ class HomeController extends Controller
   		$pincode = $request->input('pincode');
 
 
-        $apiToken = 'AIzaSyBoUdAJb9cRUfXUn7DMDv56xHyGLzbETtc';
+        $apiToken = 'AIzaSyAwEhH5NNydFASJJbunMd0Btkxl5u2WUfU';
 
         $url = 'https://maps.googleapis.com/maps/api/geocode/json?address=';
         $url = $url . $address . ',' . $pincode  . ',' . 'India';
